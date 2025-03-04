@@ -472,8 +472,21 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Line numbers and stats functions
     function updateLineNumbers() {
-        const lines = editor.value.split('\n');
-        const lineCount = lines.length;
+        const text = editor.value;
+        const lines = text.split('\n');
+        const editorWidth = editor.clientWidth;
+        const computedStyle = window.getComputedStyle(editor);
+        const lineHeight = parseFloat(computedStyle.lineHeight);
+        const paddingLeft = parseFloat(computedStyle.paddingLeft);
+        const paddingRight = parseFloat(computedStyle.paddingRight);
+        const availableWidth = editorWidth - paddingLeft - paddingRight;
+
+        // Get font details
+        const fontSize = parseFloat(computedStyle.fontSize);
+        const fontFamily = computedStyle.fontFamily;
+        const canvas = document.createElement('canvas');
+        const context = canvas.getContext('2d');
+        context.font = `${fontSize}px ${fontFamily}`;
 
         // Clear existing line numbers
         lineNumbers.innerHTML = '';
@@ -481,12 +494,29 @@ document.addEventListener('DOMContentLoaded', function() {
         // Create a document fragment for better performance
         const fragment = document.createDocumentFragment();
 
-        for (let i = 1; i <= lineCount; i++) {
+        // Keep track of actual line count (for line number)
+        let actualLineCount = 0;
+
+        lines.forEach((line, index) => {
+            // Measure line width and determine wrapping
+            const lineWidth = context.measureText(line).width;
+            const wrappedLines = Math.ceil(lineWidth / availableWidth);
+
+            // Create line number for the first physical line
+            actualLineCount++;
             const lineNumberElement = document.createElement('div');
-            lineNumberElement.textContent = i;
+            lineNumberElement.textContent = actualLineCount;
             lineNumberElement.className = 'line-number';
             fragment.appendChild(lineNumberElement);
-        }
+
+            // Add empty line numbers for wrapped lines
+            for (let i = 1; i < wrappedLines; i++) {
+                const emptyLineElement = document.createElement('div');
+                emptyLineElement.textContent = ''; // No number for wrapped lines
+                emptyLineElement.className = 'line-number';
+                fragment.appendChild(emptyLineElement);
+            }
+        });
 
         lineNumbers.appendChild(fragment);
     }
@@ -525,7 +555,9 @@ document.addEventListener('DOMContentLoaded', function() {
     function saveToFile() {
         const tab = getActiveTab();
         const content = editor.value;
-        const blob = new Blob([content], { type: 'text/plain' });
+        const blob = new Blob([content], {
+            type: 'text/plain'
+        });
         const url = URL.createObjectURL(blob);
 
         const a = document.createElement('a');
@@ -533,7 +565,7 @@ document.addEventListener('DOMContentLoaded', function() {
         a.download = tab.title.endsWith('.txt') ? tab.title : tab.title + '.txt';
         a.click();
 
-        URL.revoObjectURL(url);
+        URL.revokeObjectURL(url);
         showNotification('File saved successfully!');
     }
 
