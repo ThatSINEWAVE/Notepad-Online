@@ -4,6 +4,8 @@
 
 A modern, tabbed notepad application that runs in your browser with auto-save functionality and native file system integration.
 
+**🚧 This project is a work in progress. Features and functionality may be broken or subject to change. 🚧**
+
 ![Notepad Online Screenshot](https://raw.githubusercontent.com/ThatSINEWAVE/Notepad-Online/refs/heads/main/.github/SCREENSHOTS/Notepad-Online.png)
 
 </div>
