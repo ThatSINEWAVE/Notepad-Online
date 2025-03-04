@@ -17,6 +17,7 @@
     --status-bar-text: #666;
     --scrollbar-thumb: rgba(52, 152, 219, 0.6);
     --scrollbar-thumb-hover: rgba(52, 152, 219, 0.8);
+    --sidebar-width: 60px;
 }
 
 * {
@@ -42,17 +43,18 @@ body, html {
 }
 
 .sidebar {
-    width: 60px;
+    width: var(--sidebar-width);
     background-color: var(--sidebar-bg);
     display: flex;
     flex-direction: column;
     overflow-y: hidden;
     user-select: none;
-    position: absolute;
+    position: fixed;
     left: 0;
     top: 0;
     bottom: 0;
-    z-index: 1;
+    z-index: 5;
+    box-shadow: 1px 0 3px rgba(0, 0, 0, 0.1);
 }
 
 .sidebar-toolbar-space {
@@ -85,7 +87,7 @@ body, html {
     height: 100%;
     overflow: hidden;
     width: 100%;
-    padding-left: 60px;
+    padding-left: var(--sidebar-width);
 }
 
 /* App title */
@@ -136,7 +138,7 @@ body, html {
     margin-top: 4px;
     border-top-left-radius: 4px;
     border-top-right-radius: 4px;
-    transition: transform 0.1s;
+    transition: all 0.2s ease;
 }
 
 .tab.active {
@@ -145,11 +147,18 @@ body, html {
     height: 34px;
     margin-top: 0;
     z-index: 1;
+    font-weight: 500;
+}
+
+.tab:hover:not(.active) {
+    background-color: var(--tab-active-bg);
+    opacity: 0.8;
 }
 
 .tab.dragging {
     opacity: 0.8;
     z-index: 100;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .tab-title {
@@ -199,11 +208,12 @@ body, html {
     justify-content: center;
     flex-shrink: 0;
     margin: 0 5px;
+    border-radius: 4px;
+    transition: background-color 0.2s;
 }
 
 .new-tab-btn:hover {
     background-color: rgba(0, 0, 0, 0.05);
-    border-radius: 4px;
 }
 
 .toolbar {
@@ -214,11 +224,11 @@ body, html {
     justify-content: space-between;
     align-items: center;
     height: 49px;
-    width: 100%;
+    width: 100vw;
     position: relative;
     z-index: 10;
-    margin-left: -60px;
-    padding-left: 80px;
+    margin-left: calc(var(--sidebar-width) * -1);
+    padding-left: calc(var(--sidebar-width) + 20px);
 }
 
 /* Status bar at the bottom */
@@ -230,11 +240,11 @@ body, html {
     justify-content: flex-end;
     align-items: center;
     height: 30px;
-    width: 100%;
+    width: 100vw;
     position: relative;
     z-index: 10;
-    margin-left: -100px;
-    padding-left: 80px;
+    margin-left: calc(var(--sidebar-width) * -1);
+    padding-left: calc(var(--sidebar-width) + 20px);
 }
 
 .stats {
@@ -257,11 +267,15 @@ body, html {
     border-radius: 4px;
     cursor: pointer;
     font-size: 14px;
-    transition: background-color 0.2s;
+    transition: background-color 0.2s, transform 0.1s;
 }
 
 .btn:hover {
     background-color: var(--button-hover);
+}
+
+.btn:active {
+    transform: scale(0.98);
 }
 
 .btn-outline {
@@ -351,6 +365,8 @@ body, html {
     opacity: 0;
     transition: opacity 0.3s;
     pointer-events: none;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
 }
 
 .notification.show {
@@ -360,23 +376,15 @@ body, html {
 @media (max-width: 768px) {
     :root {
         --editor-font-size: 14px;
+        --sidebar-width: 40px;
     }
 
     .sidebar {
-        width: 40px;
+        width: var(--sidebar-width);
     }
 
     .editor-container {
-        padding-left: 40px;
-    }
-
-    .toolbar, .status-bar {
-        padding-left: 50px;
-    }
-
-    .line-numbers {
-        padding: 15px 5px 15px 0;
-        font-size: 12px;
+        padding-left: var(--sidebar-width);
     }
 
     .toolbar {
@@ -385,6 +393,16 @@ body, html {
         align-items: stretch;
         gap: 10px;
         height: auto;
+        padding-left: calc(var(--sidebar-width) + 10px);
+    }
+
+    .status-bar {
+        padding-left: calc(var(--sidebar-width) + 10px);
+    }
+
+    .line-numbers {
+        padding: 15px 5px 15px 0;
+        font-size: 12px;
     }
 
     .sidebar-toolbar-space {
