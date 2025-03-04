@@ -21,12 +21,18 @@ document.addEventListener('DOMContentLoaded', function() {
     const DEFAULT_FILE_NAME = 'Untitled';
     let tabs = [];
     let activeTabId = null;
+    let draggedTab = null;
 
     // Initialize tabs
     initTabs();
 
     // Event listeners for tab system
-    newTabBtn.addEventListener('click', createNewTab);
+    newTabBtn.addEventListener('click', function() {
+        createNewTab();
+    });
+
+    // Setup drag and drop for tabs container
+    setupTabDragAndDrop();
 
     // Editor event listeners
     editor.addEventListener('input', function() {
@@ -108,6 +114,53 @@ document.addEventListener('DOMContentLoaded', function() {
 
     saveBtn.addEventListener('click', saveToFile);
 
+    // Setup drag and drop functionality for tabs
+    function setupTabDragAndDrop() {
+        tabsContainer.addEventListener('dragover', function(e) {
+            e.preventDefault();
+            const target = getTabElementFromPoint(e.clientX, e.clientY);
+            if (target && target !== draggedTab) {
+                const targetRect = target.getBoundingClientRect();
+                const targetCenter = targetRect.left + targetRect.width / 2;
+
+                if (e.clientX < targetCenter) {
+                    // Insert before
+                    tabsContainer.insertBefore(draggedTab, target);
+                } else {
+                    // Insert after
+                    tabsContainer.insertBefore(draggedTab, target.nextSibling);
+                }
+
+                // Update tabs array to match DOM order
+                updateTabsOrder();
+            }
+        });
+    }
+
+    function getTabElementFromPoint(x, y) {
+        const elements = document.elementsFromPoint(x, y);
+        for (const element of elements) {
+            if (element.classList.contains('tab')) {
+                return element;
+            }
+        }
+        return null;
+    }
+
+    function updateTabsOrder() {
+        const newOrder = [];
+        document.querySelectorAll('.tab').forEach(tabElement => {
+            const tabId = tabElement.dataset.tabId;
+            const tab = tabs.find(t => t.id === tabId);
+            if (tab) {
+                newOrder.push(tab);
+            }
+        });
+
+        tabs = newOrder;
+        saveTabs();
+    }
+
     // Tab system functions
     function initTabs() {
         // Try to load tabs from localStorage
@@ -134,6 +187,19 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function createNewTab(title = DEFAULT_FILE_NAME) {
+        // If title is exactly DEFAULT_FILE_NAME, make it unique
+        if (title === DEFAULT_FILE_NAME) {
+            // Check if we need to add a number
+            const untitledTabs = tabs.filter(tab =>
+                tab.title === DEFAULT_FILE_NAME ||
+                tab.title.match(new RegExp(`^${DEFAULT_FILE_NAME} \\(\\d+\\)$`))
+            );
+
+            if (untitledTabs.length > 0) {
+                title = `${DEFAULT_FILE_NAME} (${untitledTabs.length})`;
+            }
+        }
+
         const tabId = 'tab_' + Date.now();
         const newTab = {
             id: tabId,
@@ -159,6 +225,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const tabElement = document.createElement('div');
         tabElement.className = 'tab';
         tabElement.dataset.tabId = tab.id;
+        tabElement.draggable = true;
         tabElement.innerHTML = `
             <span class="tab-title">${tab.title}</span>
             <span class="tab-close" title="Close tab">×</span>
@@ -172,6 +239,13 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
 
+        // Add double click event for renaming
+        const titleElement = tabElement.querySelector('.tab-title');
+        titleElement.addEventListener('dblclick', function(e) {
+            e.stopPropagation();
+            startTabRename(tab.id);
+        });
+
         // Add click event for tab closing
         const closeBtn = tabElement.querySelector('.tab-close');
         closeBtn.addEventListener('click', function(e) {
@@ -179,7 +253,87 @@ document.addEventListener('DOMContentLoaded', function() {
             closeTab(tab.id);
         });
 
+        // Add drag events
+        tabElement.addEventListener('dragstart', function(e) {
+            draggedTab = tabElement;
+            e.dataTransfer.effectAllowed = 'move';
+            // Add a class for styling
+            setTimeout(() => tabElement.classList.add('dragging'), 0);
+        });
+
+        tabElement.addEventListener('dragend', function() {
+            draggedTab = null;
+            tabElement.classList.remove('dragging');
+        });
+
         tabsContainer.appendChild(tabElement);
+    }
+
+    function startTabRename(tabId) {
+        const tabElement = document.querySelector(`.tab[data-tab-id="${tabId}"]`);
+        if (!tabElement) return;
+
+        const titleElement = tabElement.querySelector('.tab-title');
+        const currentTitle = titleElement.textContent;
+
+        // Create an input element
+        const inputElement = document.createElement('input');
+        inputElement.type = 'text';
+        inputElement.className = 'tab-title-input';
+        inputElement.value = currentTitle;
+
+        // Replace the title with the input
+        titleElement.style.display = 'none';
+        tabElement.insertBefore(inputElement, titleElement);
+
+        // Focus and select all text
+        inputElement.focus();
+        inputElement.select();
+
+        // Handle input blur (commit rename)
+        inputElement.addEventListener('blur', function() {
+            finishTabRename(tabId, inputElement.value);
+        });
+
+        // Handle Enter key
+        inputElement.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                inputElement.blur();
+            } else if (e.key === 'Escape') {
+                e.preventDefault();
+                inputElement.value = currentTitle;
+                inputElement.blur();
+            }
+        });
+
+        // Prevent clicks from propagating while renaming
+        inputElement.addEventListener('click', function(e) {
+            e.stopPropagation();
+        });
+    }
+
+    function finishTabRename(tabId, newTitle) {
+        const tabElement = document.querySelector(`.tab[data-tab-id="${tabId}"]`);
+        if (!tabElement) return;
+
+        const titleElement = tabElement.querySelector('.tab-title');
+        const inputElement = tabElement.querySelector('.tab-title-input');
+
+        if (!inputElement) return;
+
+        // Apply new title if not empty
+        newTitle = newTitle.trim();
+        if (newTitle === '') {
+            newTitle = DEFAULT_FILE_NAME;
+        }
+
+        // Update title and save
+        updateTabTitle(tabId, newTitle);
+
+        // Remove input and show title
+        inputElement.remove();
+        titleElement.style.display = '';
     }
 
     function setActiveTab(tabId) {
