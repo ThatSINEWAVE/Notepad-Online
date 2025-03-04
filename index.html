@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tabbed Notepad</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <div class="sidebar-toolbar-space"></div>
+            <div class="line-numbers" id="lineNumbers"></div>
+        </div>
+        <div class="editor-container">
+            <div class="tab-container">
+                <div class="tabs" id="tabsContainer">
+                </div>
+                <button id="newTabBtn" class="new-tab-btn" title="Create new tab">+</button>
+            </div>
+            <div class="toolbar">
+                <div class="stats">
+                    <span id="wordCount">0 words</span>
+                    <span id="charCount">0 characters</span>
+                    <span id="lineCount">0 lines</span>
+                </div>
+                <div class="file-actions">
+                    <button class="btn btn-outline" id="newBtn">New</button>
+                    <button class="btn btn-outline" id="openBtn">Open</button>
+                    <input type="file" id="file-input" accept=".txt">
+                    <button class="btn" id="saveBtn">Save</button>
+                </div>
+            </div>
+            <div class="editor-wrapper">
+                <textarea id="editor" spellcheck="false" placeholder="Start typing here..."></textarea>
+            </div>
+        </div>
+    </div>
+    <div class="notification" id="notification">Notepad saved!</div>
+    <script src="script.js"></script>
+</body>
+</html>

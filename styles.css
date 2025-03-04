@@ -1,0 +1,328 @@
+:root {
+    --primary-color: #3498db;
+    --bg-color: #f9f9f9;
+    --text-color: #333;
+    --sidebar-bg: #f1f1f1;
+    --sidebar-text: #666;
+    --highlight-bg: rgba(52, 152, 219, 0.1);
+    --button-bg: #3498db;
+    --button-hover: #2980b9;
+    --button-text: white;
+    --line-height: 1.6;
+    --editor-font-size: 16px;
+    --tab-bg: #e4e4e4;
+    --tab-active-bg: #fff;
+    --tab-border: #ccc;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+body, html {
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+}
+
+.container {
+    display: flex;
+    height: 100%;
+    width: 100%;
+    position: relative;
+}
+
+.sidebar {
+    width: 60px;
+    background-color: var(--sidebar-bg);
+    display: flex;
+    flex-direction: column;
+    overflow-y: hidden;
+    user-select: none;
+}
+
+.sidebar-toolbar-space {
+    height: 83px; /* Match toolbar + tabs height */
+    width: 100%;
+}
+
+.line-numbers {
+    padding: 15px 8px 15px 0;
+    text-align: right;
+    color: var(--sidebar-text);
+    font-size: 14px;
+    overflow-y: hidden;
+    flex: 1;
+    width: 100%;
+    white-space: pre;
+    font-family: monospace;
+}
+
+.line-number {
+    height: calc(var(--line-height) * var(--editor-font-size));
+    line-height: calc(var(--line-height) * var(--editor-font-size));
+    display: block;
+}
+
+.editor-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+}
+
+/* Tab system styling */
+.tab-container {
+    display: flex;
+    background-color: var(--sidebar-bg);
+    border-bottom: 1px solid var(--tab-border);
+    overflow-x: auto;
+    height: 34px;
+    align-items: center;
+}
+
+.tabs {
+    display: flex;
+    height: 100%;
+    flex: 1;
+    overflow-x: auto;
+    scrollbar-width: none; /* Firefox */
+}
+
+.tabs::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+}
+
+.tab {
+    display: flex;
+    align-items: center;
+    padding: 0 10px 0 15px;
+    background-color: var(--tab-bg);
+    border-right: 1px solid var(--tab-border);
+    height: 30px;
+    min-width: 120px;
+    max-width: 200px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    cursor: pointer;
+    position: relative;
+    user-select: none;
+    margin-top: 4px;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+}
+
+.tab.active {
+    background-color: var(--tab-active-bg);
+    border-bottom: none;
+    height: 34px;
+    margin-top: 0;
+    z-index: 1;
+}
+
+.tab-title {
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.tab-close {
+    margin-left: 8px;
+    width: 16px;
+    height: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.tab-close:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.new-tab-btn {
+    width: 30px;
+    height: 30px;
+    background-color: transparent;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin: 0 5px;
+}
+
+.new-tab-btn:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+    border-radius: 4px;
+}
+
+.toolbar {
+    display: flex;
+    padding: 10px 20px;
+    background-color: white;
+    border-bottom: 1px solid #eee;
+    justify-content: space-between;
+    align-items: center;
+    height: 49px;
+}
+
+.stats {
+    display: flex;
+    gap: 20px;
+    font-size: 14px;
+    color: var(--sidebar-text);
+}
+
+.file-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.btn {
+    padding: 8px 15px;
+    background-color: var(--button-bg);
+    color: var(--button-text);
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.2s;
+}
+
+.btn:hover {
+    background-color: var(--button-hover);
+}
+
+.btn-outline {
+    background-color: transparent;
+    color: var(--button-bg);
+    border: 1px solid var(--button-bg);
+}
+
+.btn-outline:hover {
+    background-color: var(--highlight-bg);
+}
+
+.editor-wrapper {
+    flex: 1;
+    display: flex;
+    overflow: hidden;
+    position: relative;
+}
+
+#editor {
+    flex: 1;
+    padding: 15px 20px;
+    font-size: var(--editor-font-size);
+    line-height: var(--line-height);
+    overflow-y: auto;
+    border: none;
+    resize: none;
+    outline: none;
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+    font-family: monospace;
+}
+
+#file-input {
+    display: none;
+}
+
+.notification {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    padding: 10px 20px;
+    background-color: rgba(52, 152, 219, 0.9);
+    color: white;
+    border-radius: 4px;
+    opacity: 0;
+    transition: opacity 0.3s;
+    pointer-events: none;
+}
+
+.notification.show {
+    opacity: 1;
+}
+
+@media (max-width: 768px) {
+    :root {
+        --editor-font-size: 14px;
+    }
+
+    .sidebar {
+        width: 40px;
+    }
+
+    .line-numbers {
+        padding: 15px 5px 15px 0;
+        font-size: 12px;
+    }
+
+    .toolbar {
+        padding: 10px;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+        height: auto;
+    }
+
+    .sidebar-toolbar-space {
+        height: 118px; /* Adjust for taller mobile toolbar + tabs */
+    }
+
+    .stats {
+        justify-content: space-between;
+    }
+
+    #editor {
+        padding: 10px;
+    }
+
+    .tab {
+        min-width: 100px;
+        padding: 0 8px 0 10px;
+    }
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --bg-color: #1a1a1a;
+        --text-color: #e6e6e6;
+        --sidebar-bg: #2a2a2a;
+        --sidebar-text: #b3b3b3;
+        --highlight-bg: rgba(52, 152, 219, 0.2);
+        --tab-bg: #333;
+        --tab-active-bg: #222;
+        --tab-border: #444;
+    }
+
+    #editor, .toolbar {
+        background-color: #222;
+        color: var(--text-color);
+    }
+
+    .toolbar {
+        border-bottom: 1px solid #333;
+    }
+
+    .tab-close:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+    }
+
+    .new-tab-btn:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+    }
+}
