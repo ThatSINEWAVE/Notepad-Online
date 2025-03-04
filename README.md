@@ -1,8 +1,12 @@
+<div align="center">
+
 # [Notepad Online](https://thatsinewave.github.io/Notepad-Online)
 
 A modern, tabbed notepad application that runs in your browser with auto-save functionality and native file system integration.
 
 ![Notepad Online Screenshot](https://raw.githubusercontent.com/ThatSINEWAVE/Notepad-Online/refs/heads/main/.github/SCREENSHOTS/Notepad-Online.png)
+
+</div>
 
 ## Features
 
@@ -16,6 +20,12 @@ A modern, tabbed notepad application that runs in your browser with auto-save fu
 - **Keyboard Shortcuts** - Quick actions for common operations
 - **Drag-and-Drop Tabs** - Reorganize tabs by dragging
 - **Persistent Storage** - Maintains your work between sessions
+
+<div align="center">
+
+## ☕ [Support my work on Ko-Fi](https://ko-fi.com/thatsinewave)
+
+</div>
 
 ## Getting Started
 
@@ -53,6 +63,12 @@ cd Notepad-Online
 - **Automatic Dark Mode** follows system preference
 - **Selection Statistics** shows counts for highlighted text
 - **Auto-Save** triggers after 1 second of inactivity
+
+<div align="center">
+
+## [Join my discord server](https://discord.gg/2nHHHBWNDw)
+
+</div>
 
 ## Technologies
 
