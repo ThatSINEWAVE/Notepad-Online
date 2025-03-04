@@ -13,6 +13,10 @@
     --tab-bg: #e4e4e4;
     --tab-active-bg: #fff;
     --tab-border: #ccc;
+    --status-bar-bg: #f1f1f1;
+    --status-bar-text: #666;
+    --scrollbar-thumb: rgba(52, 152, 219, 0.6);
+    --scrollbar-thumb-hover: rgba(52, 152, 219, 0.8);
 }
 
 * {
@@ -44,10 +48,15 @@ body, html {
     flex-direction: column;
     overflow-y: hidden;
     user-select: none;
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    z-index: 1;
 }
 
 .sidebar-toolbar-space {
-    height: 83px; /* Match toolbar + tabs height */
+    height: 83px;
     width: 100%;
 }
 
@@ -75,6 +84,15 @@ body, html {
     flex-direction: column;
     height: 100%;
     overflow: hidden;
+    width: 100%;
+    padding-left: 60px;
+}
+
+/* App title */
+.app-title {
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--text-color);
 }
 
 /* Tab system styling */
@@ -85,6 +103,7 @@ body, html {
     overflow-x: auto;
     height: 34px;
     align-items: center;
+    width: 100%;
 }
 
 .tabs {
@@ -117,6 +136,7 @@ body, html {
     margin-top: 4px;
     border-top-left-radius: 4px;
     border-top-right-radius: 4px;
+    transition: transform 0.1s;
 }
 
 .tab.active {
@@ -127,10 +147,28 @@ body, html {
     z-index: 1;
 }
 
+.tab.dragging {
+    opacity: 0.8;
+    z-index: 100;
+}
+
 .tab-title {
     flex: 1;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+
+.tab-title-input {
+    flex: 1;
+    height: 20px;
+    font-size: 14px;
+    border: none;
+    background: transparent;
+    border-bottom: 1px solid var(--primary-color);
+    outline: none;
+    padding: 0;
+    margin-right: 8px;
+    width: calc(100% - 25px);
 }
 
 .tab-close {
@@ -176,13 +214,34 @@ body, html {
     justify-content: space-between;
     align-items: center;
     height: 49px;
+    width: 100%;
+    position: relative;
+    z-index: 10;
+    margin-left: -60px;
+    padding-left: 80px;
+}
+
+/* Status bar at the bottom */
+.status-bar {
+    display: flex;
+    padding: 5px 20px;
+    background-color: var(--status-bar-bg);
+    border-top: 1px solid #eee;
+    justify-content: flex-end;
+    align-items: center;
+    height: 30px;
+    width: 100%;
+    position: relative;
+    z-index: 10;
+    margin-left: -100px;
+    padding-left: 80px;
 }
 
 .stats {
     display: flex;
     gap: 20px;
     font-size: 14px;
-    color: var(--sidebar-text);
+    color: var(--status-bar-text);
 }
 
 .file-actions {
@@ -236,6 +295,47 @@ body, html {
     font-family: monospace;
 }
 
+/* Custom scrollbar - for editor */
+#editor::-webkit-scrollbar {
+    width: 8px;
+    background-color: transparent;
+}
+
+#editor::-webkit-scrollbar-thumb {
+    background-color: var(--scrollbar-thumb);
+    border-radius: 4px;
+}
+
+#editor::-webkit-scrollbar-thumb:hover {
+    background-color: var(--scrollbar-thumb-hover);
+}
+
+/* For Firefox */
+#editor {
+    scrollbar-width: thin;
+    scrollbar-color: var(--scrollbar-thumb) transparent;
+}
+
+/* Custom scrollbar - for tabs container */
+.tabs::-webkit-scrollbar {
+    height: 0;
+    background-color: transparent;
+}
+
+.tabs::-webkit-scrollbar-thumb {
+    background-color: var(--scrollbar-thumb);
+    border-radius: 4px;
+}
+
+.tabs::-webkit-scrollbar-thumb:hover {
+    background-color: var(--scrollbar-thumb-hover);
+}
+
+/* For Firefox */
+.tabs {
+    scrollbar-width: none;
+}
+
 #file-input {
     display: none;
 }
@@ -266,6 +366,14 @@ body, html {
         width: 40px;
     }
 
+    .editor-container {
+        padding-left: 40px;
+    }
+
+    .toolbar, .status-bar {
+        padding-left: 50px;
+    }
+
     .line-numbers {
         padding: 15px 5px 15px 0;
         font-size: 12px;
@@ -280,7 +388,7 @@ body, html {
     }
 
     .sidebar-toolbar-space {
-        height: 118px; /* Adjust for taller mobile toolbar + tabs */
+        height: 118px;
     }
 
     .stats {
@@ -295,6 +403,17 @@ body, html {
         min-width: 100px;
         padding: 0 8px 0 10px;
     }
+
+    .app-title {
+        font-size: 14px;
+        text-align: center;
+        margin-bottom: 5px;
+    }
+
+    .status-bar {
+        height: auto;
+        padding: 5px 10px;
+    }
 }
 
 @media (prefers-color-scheme: dark) {
@@ -307,6 +426,10 @@ body, html {
         --tab-bg: #333;
         --tab-active-bg: #222;
         --tab-border: #444;
+        --status-bar-bg: #2a2a2a;
+        --status-bar-text: #b3b3b3;
+        --scrollbar-thumb: rgba(52, 152, 219, 0.4);
+        --scrollbar-thumb-hover: rgba(52, 152, 219, 0.6);
     }
 
     #editor, .toolbar {
@@ -318,11 +441,20 @@ body, html {
         border-bottom: 1px solid #333;
     }
 
+    .status-bar {
+        background-color: var(--status-bar-bg);
+        border-top: 1px solid #333;
+    }
+
     .tab-close:hover {
         background-color: rgba(255, 255, 255, 0.1);
     }
 
     .new-tab-btn:hover {
         background-color: rgba(255, 255, 255, 0.1);
+    }
+
+    .tab-title-input {
+        color: var(--text-color);
     }
 }
