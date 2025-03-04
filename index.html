@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tabbed Notepad</title>
+    <title>Notepad Online</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="apple-touch-icon" sizes="57x57" href="site-data/apple-icon-57x57.png">
     <link rel="apple-touch-icon" sizes="60x60" href="site-data/apple-icon-60x60.png">
@@ -18,9 +18,23 @@
     <link rel="icon" type="image/png" sizes="32x32" href="site-data/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="96x96" href="site-data/favicon-96x96.png">
     <link rel="icon" type="image/png" sizes="16x16" href="site-data/favicon-16x16.png">
-    <meta name="msapplication-TileColor" content="#ffffff">
-    <meta name="msapplication-TileImage" content="site-data/ms-icon-144x144.png">
-    <meta name="theme-color" content="#ffffff">
+    <link rel="manifest" href="/site-data/site.webmanifest">
+    <!-- Windows-specific tiles (for pinned sites in Windows Start menu) -->
+    <meta name="msapplication-TileColor" content="#000000">
+    <meta name="msapplication-TileImage" content="/site-data/ms-icon-144x144.png">
+    <!-- Defines the color of the browser UI elements -->
+    <meta name="theme-color" content="#000000">
+    <!-- Open Graph Meta Tags (for social media sharing, mainly Facebook) -->
+    <meta property="og:title" content="ThatSINEWAVE - New Tab">
+    <meta property="og:description" content="A beautifully customizable new tab replacement for modern browsers. Transform your browser's new tab page into a sleek, personalized dashboard with multiple themes, search engine options, and productivity features.">
+    <meta property="og:image" content="https://raw.githubusercontent.com/ThatSINEWAVE/Notepad-Online/refs/heads/main/site-data/social-share/Notepad-Online.png">
+    <meta property="og:url" content="https://thatsinewave.github.io/Notepad-Online/">
+    <meta property="og:type" content="website">
+    <!-- Twitter Card Meta Tags (for better sharing on Twitter) -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="ThatSINEWAVE - New Tab">
+    <meta name="twitter:description" content="A beautifully customizable new tab replacement for modern browsers. Transform your browser's new tab page into a sleek, personalized dashboard with multiple themes, search engine options, and productivity features.">
+    <meta name="twitter:image" content="https://raw.githubusercontent.com/ThatSINEWAVE/Notepad-Online/refs/heads/main/site-data/social-share/Notepad-Online.png">
   </head>
   <body>
     <div class="container">
@@ -32,7 +46,7 @@
       </div>
       <div class="editor-container">
         <div class="toolbar">
-          <div class="app-title">ThatSINEWAVE's Online Notepad</div>
+          <div class="app-title">Online Notepad</div>
           <div class="file-actions">
             <button class="btn btn-outline" id="newBtn">New</button>
             <button class="btn btn-outline" id="openBtn">Open</button>
