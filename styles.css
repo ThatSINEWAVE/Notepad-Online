@@ -1,32 +1,72 @@
 :root {
-  --primary-color: #3498db;
-  --primary-light: rgba(52, 152, 219, 0.1);
-  --primary-dark: #2980b9;
-  --bg-color: #f9f9f9;
-  --text-color: #333;
-  --sidebar-bg: #f1f1f1;
+  /* Color Palette */
+  --primary-color: #4a90e2;
+  --primary-light: rgba(74, 144, 226, 0.1);
+  --primary-dark: #357abd;
+
+  /* Neutral Colors */
+  --bg-color: #f4f6f9;
+  --text-color: #2c3e50;
+  --text-muted: #6c757d;
+
+  /* Background and Surface */
+  --surface-color: #ffffff;
+  --sidebar-bg: #f8f9fa;
+
+  /* Sidebar */
   --sidebar-text: #666;
+  --sidebar-width: 50px;
+
+  /* Buttons */
   --button-bg: #3498db;
   --button-hover: #2980b9;
   --button-text: white;
-  --line-height: 1.6;
-  --editor-font-size: 16px;
-  --tab-bg: #e4e4e4;
-  --tab-active-bg: #fff;
+
+  /* Tabs */
+  --tab-bg: #e9ecef;
+  --tab-active-bg: #ffffff;
+  --tab-hover-bg: #f1f3f5;
   --tab-border: #ccc;
+  --tab-height: 36px;
+
+  /* Status Bar */
   --status-bar-bg: #f1f1f1;
   --status-bar-text: #666;
-  --scrollbar-thumb: rgba(52, 152, 219, 0.6);
-  --scrollbar-thumb-hover: rgba(52, 152, 219, 0.8);
-  --sidebar-width: 60px;
-  --toolbar-height: 50px;
-  --tab-height: 34px;
-  --status-height: 30px;
-  --border-color: #eaeaea;
+  --status-height: 32px;
+
+  /* Typography */
+  --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --editor-font-family: 'Fira Code', 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, monospace;
+  --editor-font-size: 16px;
+  --line-height: 1.6;
+
+  /* Typography Sizes */
+  --font-size-sm: 0.875rem;
+  --font-size-base: 1rem;
+  --font-size-lg: 1.125rem;
+
+  /* Sizing and Spacing */
+  --toolbar-height: 52px;
+  --border-radius: 4px;
+  --border-radius-sm: 4px;
+  --border-radius-md: 6px;
+
+  /* Shadows and Elevation */
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
   --shadow-md: 0 2px 4px rgba(0, 0, 0, 0.1);
+  --shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.06);
+  --shadow-light: 0 2px 8px rgba(0, 0, 0, 0.08);
+
+  /* Borders */
+  --border-color: #eaeaea;
+
+  /* Transitions */
   --transition-speed: 0.2s;
-  --border-radius: 4px;
+  --transition-easing: cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* Scrollbars */
+  --scrollbar-thumb: rgba(52, 152, 219, 0.6);
+  --scrollbar-thumb-hover: rgba(52, 152, 219, 0.8);
 }
 
 * {
@@ -125,7 +165,7 @@ body, html {
   z-index: 10;
 }
 
-/* App title - Fixed alignment issue */
+/* App title */
 .app-title {
   font-size: 16px;
   font-weight: 500;
