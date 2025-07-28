@@ -265,9 +265,14 @@ document.addEventListener('DOMContentLoaded', function() {
             draggedTab = null;
             tabElement.classList.remove('dragging');
         });
-
+        // Remove the new tab button before appending the new tab
+        if (tabsContainer.contains(newTabBtn)) {
+            tabsContainer.removeChild(newTabBtn);
+        }
+        // Append the new tab, then re-append the new tab button
         tabsContainer.appendChild(tabElement);
-    }
+        tabsContainer.appendChild(newTabBtn);
+        }
 
     function startTabRename(tabId) {
         const tabElement = document.querySelector(`.tab[data-tab-id="${tabId}"]`);

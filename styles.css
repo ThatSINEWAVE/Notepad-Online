@@ -184,6 +184,7 @@ body, html {
   height: var(--tab-height);
   align-items: flex-end;
   width: 100%;
+   
 }
 
 .tabs {
@@ -192,6 +193,7 @@ body, html {
   flex: 1;
   overflow-x: auto;
   scrollbar-width: none; /* Firefox */
+  align-items: stretch;   /* Ensure tabs and button align */
 }
 
 .tabs::-webkit-scrollbar {
@@ -277,23 +279,36 @@ body, html {
 }
 
 .new-tab-btn {
-  width: 30px;
+  width: 32px;
   height: 30px;
-  background-color: transparent;
+  background-color: #ededed;           
+  color: #555;                         
   border: none;
-  font-size: 20px;
+  font-size: 22px;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  margin: 0 5px;
-  border-radius: var(--border-radius);
-  transition: background-color var(--transition-speed) ease;
+  margin-left: 0;
+  margin-right: 5px;
+  border-top-left-radius: var(--border-radius);
+  border-top-right-radius: var(--border-radius);
+  border-bottom: 2px solid transparent;
+  border-right: 1px solid var(--tab-border);
+  margin-top: 4px;
+  transition: 
+    background-color var(--transition-speed) ease,
+    color var(--transition-speed) ease,
+    border-bottom var(--transition-speed) ease;
 }
 
-.new-tab-btn:hover {
-  background-color: rgba(0, 0, 0, 0.05);
+.new-tab-btn:hover,
+.new-tab-btn:focus {
+  background-color: #d4d4d4;           /* Slightly darker on hover */
+  color: #222;
+  border-bottom: 2px solid #4a90e2;    /* Subtle highlight like Windows */
+  outline: none;
 }
 
 /* Button styles */
