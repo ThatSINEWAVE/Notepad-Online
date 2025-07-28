@@ -83,6 +83,9 @@ cd Notepad-Online
 
 Contributions are welcome! If you want to contribute, feel free to fork the repository, make your changes, and submit a pull request.
 
+### Contributors
+- [Srivarshan-T](https://github.com/Srivarshan-T) - Thanks for improving the tab UI/UX, [Pull Request #3](https://github.com/ThatSINEWAVE/Notepad-Online/pull/3)
+
 ## License
 
 This project is licensed under the [GPL-3.0 License](LICENSE).
